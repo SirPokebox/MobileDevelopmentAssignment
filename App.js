@@ -1,22 +1,26 @@
 import 'react-native-gesture-handler';
-import React from 'react';
 
-import {NavigationContainer} from '@react-navigation-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { Component } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import Login from './Screens/Components/Login';
-import SignUp from './Screens/Components/SignUp';
+import Home from './components/Login.js'
+import Register from './components/SignUp.js'
+import Coffee from './components/Review.js'
 
 const Stack = createStackNavigator();
 
-function App(){
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-      </Stack.Navigator>
-    </NavigationContainer>
-    );
+class App extends Component{
+  render(){
+    return(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component ={Home}/>
+          <Stack.Screen name="Register" component ={Register}/>
+          <Stack.Screen name="Coffee" component ={Coffee}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+      );
+  }
 }
 export default App;
