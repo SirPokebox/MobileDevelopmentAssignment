@@ -11,7 +11,18 @@ class Register extends Component{
       password: ""
     }
   }
+  signupValidation=()=> {
+    const { email, password} = this.state
 
+    if(email == ""){
+      ToastAndroid.show('Please enter a valid email address', ToastAndroid.SHORT);
+      return false
+    } else if(password.length < 6){
+      ToastAndroid.show('Please enter a secure pasword with atleast 6 characters', ToastAndroid.SHORT);
+      return false
+    }
+    this.CreateAccount()
+  }
   CreateAccount = () => {
 
     return fetch("http://10.0.2.2:3333/api/1.0.0/user", {
@@ -25,7 +36,7 @@ class Register extends Component{
         if(response.status === 201){
           return response.json()
         }else if(response.status === 400){
-          throw 'that account already exists, please use a different email';
+          throw 'please fill in the empty field';
         }else{
           throw 'Something went wrong';
         }
@@ -75,7 +86,7 @@ class Register extends Component{
         />
         <TouchableOpacity
           style = {styles.button}
-          onPress={() => this.CreateAccount()}
+          onPress={() => this.signupValidation()}
         >
           <Text style = {styles.text}>Create Account</Text>
         </TouchableOpacity>
