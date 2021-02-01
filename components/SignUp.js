@@ -31,8 +31,8 @@ class Register extends Component{
         }
     })
     .then((responseJson) => {
+          ToastAndroid.show('New Account Created Successfully!', ToastAndroid.SHORT);
           console.log("Account created with ID: ", responseJson);
-          ToastAndroid.show("New Account Created Successfully!")
           this.props.navigation.navigate("Home");
     })
     .catch((error) => {
