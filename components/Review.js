@@ -16,9 +16,8 @@ class Coffee extends Component{
 
   checkedLoggedIn = async () => {
     const value = await AsyncStorage.getItem('@session_token');
-    if (JSON.parse(value) == null) {
-        console.log("test");
-        this.props.navigation.navigate('Coffee');
+    if (value == null) {
+        this.props.navigation.navigate('Home');
     }
   };
 

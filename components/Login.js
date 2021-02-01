@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Home extends Component{
@@ -30,13 +30,13 @@ class Home extends Component{
     })
     .then(async (responseJson) => {
           console.log(responseJson);
-          await AsyncStorage.setItem('@session_token', responseJson.token);
+          await AsyncStorage.setItem('@session_token', responseJson.toString());
+          ToastAndroid.show('Login successful!', ToastAndroid.SHORT);
           this.props.navigation.navigate("Coffee");
     })
     .catch((error) => {
         console.log(error);
         ToastAndroid.show(error, ToastAndroid.SHORT);
-        throw error;
     })
   }
   render(){
@@ -44,6 +44,7 @@ class Home extends Component{
 
     return(
       <View style ={styles.container}>
+        <Text style={styles.pagetitle}>Coffee Reviews</Text>
         <TextInput
         placeholder="email address"
         onChangeText={(email) => this.setState({email})}
@@ -77,6 +78,7 @@ class Home extends Component{
 const styles = StyleSheet.create({
   container:{
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#6F4E37',
     paddingHorizontal: 10
@@ -86,6 +88,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#8B4513',
     padding: 10,
+    width:"100%",
+    borderRadius:25
   },
   input: {
     padding: 5,
@@ -94,11 +98,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     color: '#000000',
     margin: 5,
-    marginTop: 8
+    marginTop: 8,
+    width:"100%",
+    borderRadius:25,
+    height:50
+
   },
   text: {
     color: 'white',
     fontSize: 25
+  },
+  pagetitle: {
+    fontWeight: 'bold',
+    fontSize: 50,
+    color: 'white',
+    marginBottom: 40,
+    textAlign:"center"
   }
 });
 

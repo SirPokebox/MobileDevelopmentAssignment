@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, ScrollView, SafeAreaView } from 'react-native';
 
 class Register extends Component{
   constructor(props) {
@@ -45,7 +45,9 @@ class Register extends Component{
     const navigation = this.props.navigation;
 
     return(
-      <View style ={styles.container}>
+      <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <Text style={styles.pagetitle}>Create Account</Text>
         <TextInput
         placeholder="first name"
         onChangeText={(first_name) => this.setState({first_name})}
@@ -77,7 +79,8 @@ class Register extends Component{
         >
           <Text style = {styles.text}>Create Account</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -90,10 +93,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   button: {
-    marginTop: 10,
+    marginTop: 20,
     alignItems: 'center',
     backgroundColor: '#8B4513',
     padding: 10,
+    width:"100%",
+    borderRadius:25
   },
   input: {
     padding: 5,
@@ -101,12 +106,24 @@ const styles = StyleSheet.create({
     borderColor: '#6F4E37',
     backgroundColor: '#FFFFFF',
     color: '#000000',
-    margin: 5,
-    marginTop: 8
+    margin: 1,
+    marginTop: 45,
+    width:"100%",
+    borderRadius:25,
+    height:50
+
   },
   text: {
     color: 'white',
     fontSize: 25
+  },
+  pagetitle: {
+    fontWeight: 'bold',
+    fontSize: 50,
+    color: 'white',
+    marginTop:80,
+    marginBottom: 40,
+    textAlign:"center"
   }
 });
 
