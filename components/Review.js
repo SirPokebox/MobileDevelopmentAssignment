@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Coffee extends Component{
-
   componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener('focus', () =>{
     this.checkedLoggedIn();
@@ -30,6 +29,10 @@ class Coffee extends Component{
         <Button
           title="Go To Home Page"
           onPress={() => navigation.navigate('Home')}
+        />
+        <Button
+          title="Open up maps"
+          onPress={() => navigation.navigate('Map View')}
         />
       </View>
     );
