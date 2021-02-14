@@ -22,7 +22,7 @@ class App extends Component{
         <Stack.Navigator>
           <Stack.Screen options={{headerShown: false}} name="Home" component ={Home}/>
           <Stack.Screen name="Register" component ={Register}/>
-          <Stack.Screen name="Coffee" component ={Coffee}/>
+          <Stack.Screen options= {{headerShown: false}} name="Coffee" component ={Coffee}/>
           <Stack.Screen name="Map View" component ={UserLocation}/>
         </Stack.Navigator>
       </NavigationContainer>
