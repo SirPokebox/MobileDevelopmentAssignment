@@ -32,6 +32,7 @@ async function requestLocationPermission() {
 class UserLocation extends Component{
   componentDidMount() {
     this.findCoordinates();
+    this.getData();
     };
 
   constructor(props){
@@ -42,8 +43,39 @@ class UserLocation extends Component{
       latlon:{
         latitude: 0,
         longitude: 0
-      }
+      },
+      locationData: [],
     };
+  }
+  getData = async () => {
+    console.log("fetching location data now");
+    let token = await AsyncStorage.getItem('@session_token');
+    return fetch("http://10.0.2.2:3333/api/1.0.0/find", {
+      method: 'get',
+      headers: {
+        "X-Authorization": token
+      }
+    })
+    .then((response) => {
+        if(response.status === 200){
+          return response.json()
+        }else if(response.status === 400){
+          throw 'Bad Request';
+        }else{
+          throw 'Something went wrong';
+        }
+    })
+    .then((responseJson) => {
+      console.log(responseJson);
+      this.setState({
+          locationData: responseJson,
+      })
+          console.log("collected data!");
+    })
+    .catch((error) => {
+      console.log(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
+    });
   }
 
   findCoordinates = () => {
@@ -93,7 +125,7 @@ class UserLocation extends Component{
         <Marker
           coordinate={this.state.latlon}
           title = "Current Location"
-          description = "Somewhere"
+          description = "User's Location"
         />
       </MapView>
       </View>

@@ -23,7 +23,7 @@ class Home extends Component{
         if(response.status === 200){
           return response.json()
         }else if(response.status === 400){
-          throw 'Invalid email address or password entered';
+          throw 'Bad Request';
         }else{
           throw 'Something went wrong';
         }

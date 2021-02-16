@@ -11,6 +11,7 @@ import Home from './components/Login.js'
 import Register from './components/SignUp.js'
 import Coffee from './components/Review.js'
 import UserLocation from './components/GeoLocation.js'
+import MakeReview from './components/CreateReview.js'
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ class App extends Component{
           <Stack.Screen name="Register" component ={Register}/>
           <Stack.Screen options= {{headerShown: false}} name="Coffee" component ={Coffee}/>
           <Stack.Screen name="Map View" component ={UserLocation}/>
+          <Stack.Screen name="MakeReview" component ={MakeReview}/>
         </Stack.Navigator>
       </NavigationContainer>
       );

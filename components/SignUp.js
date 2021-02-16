@@ -36,7 +36,7 @@ class Register extends Component{
         if(response.status === 201){
           return response.json()
         }else if(response.status === 400){
-          throw 'please fill in the empty field';
+          throw 'Bad Request';
         }else{
           throw 'Something went wrong';
         }
