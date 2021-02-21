@@ -45,8 +45,10 @@ class UserLocation extends Component{
         longitude: 0
       },
       locationData: [],
+      coffeeShops:{
       coffeelat: 0,
       coffeelon: 0
+    }
     };
   }
   getData = async () => {
@@ -112,7 +114,7 @@ class UserLocation extends Component{
   render(){
     const navigation = this.props.navigation;
     console.log(this.state.locationData)
-    console.log(this.state.coffeelat)
+    console.log(this.state.coffeeShops)
     return(
       <View style ={{flex : 1}}>
       <MapView
@@ -121,10 +123,18 @@ class UserLocation extends Component{
         region ={{
           latitude: this.state.latlon.latitude,
           longitude: this.state.latlon.longitude,
-          latitudeDelta: 0.002,
-          longitudeDelta: 0.002,
+          latitudeDelta: 0.5,
+          longitudeDelta: 0.5,
         }}
       >
+      {this.state.locationData.map((marker, index) => (
+        <Marker
+          key={marker.location_id}
+          coordinate={{"latitude" : parseFloat(marker.latitude), "longitude" : parseFloat(marker.longitude)}}
+          title={marker.location_name}
+          description={marker.location_town}
+        />
+      ))}
         <Marker
           coordinate={this.state.latlon}
           title = "Current Location"
