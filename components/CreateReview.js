@@ -60,7 +60,7 @@ submitReview = async () => {
     quality_rating: parseInt(this.state.quality_rating),
     clenliness_rating: parseInt(this.state.clenliness_rating),
     review_body: this.state.review_body
-  };
+  }
   let token = await AsyncStorage.getItem('@session_token');
   return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/review", {
     method: 'post',
@@ -72,8 +72,7 @@ submitReview = async () => {
   })
   .then((response) => {
       if(response.status === 201){
-        this.getData()
-        return response.json()
+        return response
       }else if(response.status === 400){
         throw 'Bad Request';
       }else{
@@ -82,7 +81,8 @@ submitReview = async () => {
   })
   .then((responseJson) => {
         ToastAndroid.show('Review Submitted!', ToastAndroid.SHORT);
-        console.log("Review: ", responseJson);
+        console.log(responseJson);
+        console.log(post_toServer);
         this.props.navigation.navigate("Coffee");
   })
   .catch((error) => {

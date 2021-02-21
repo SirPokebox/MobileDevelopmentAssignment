@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, Alert, TouchableOpacity, PermissionsAndroid, Button} from 'react-native';
+import {StyleSheet, Text, View, Alert, TouchableOpacity, PermissionsAndroid, Button, ToastAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapView, { PROVIDER_GOOGLE, Marker} from 'react-native-maps';
@@ -31,8 +31,8 @@ async function requestLocationPermission() {
   }
 class UserLocation extends Component{
   componentDidMount() {
-    this.findCoordinates();
     this.getData();
+    this.findCoordinates();
     };
 
   constructor(props){
@@ -45,6 +45,8 @@ class UserLocation extends Component{
         longitude: 0
       },
       locationData: [],
+      coffeelat: 0,
+      coffeelon: 0
     };
   }
   getData = async () => {
@@ -66,11 +68,11 @@ class UserLocation extends Component{
         }
     })
     .then((responseJson) => {
-      console.log(responseJson);
       this.setState({
-          locationData: responseJson,
+          locationData : responseJson,
       })
           console.log("collected data!");
+          console.log(this.state.locationData)
     })
     .catch((error) => {
       console.log(error);
@@ -109,7 +111,8 @@ class UserLocation extends Component{
   }
   render(){
     const navigation = this.props.navigation;
-
+    console.log(this.state.locationData)
+    console.log(this.state.coffeelat)
     return(
       <View style ={{flex : 1}}>
       <MapView

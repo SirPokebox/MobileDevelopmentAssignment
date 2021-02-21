@@ -31,6 +31,7 @@ class Home extends Component{
     .then(async (responseJson) => {
           console.log(responseJson);
           await AsyncStorage.setItem('@session_token', responseJson.token);
+          await AsyncStorage.setItem('id', responseJson.id.toString());
           ToastAndroid.show('Login successful!', ToastAndroid.SHORT);
           this.props.navigation.navigate("Coffee");
     })

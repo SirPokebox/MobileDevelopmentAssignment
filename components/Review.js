@@ -56,6 +56,18 @@ class Coffee extends Component{
         <Text style = {styles.pagetitle}>Review Screen</Text>
         <TouchableOpacity
           style = {styles.button}
+          onPress={() => navigation.navigate('UserProfile')}
+          >
+            <Text style = {styles.text}>My Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style = {styles.button}
+          onPress={() => navigation.navigate('FavouriteCoffee')}
+          >
+            <Text style = {styles.text}>My Favourite Shop</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => navigation.navigate('Map View')}
           >
             <Text style = {styles.text}>See Local Coffee</Text>
