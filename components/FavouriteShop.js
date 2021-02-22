@@ -9,6 +9,7 @@ class FavouriteCoffee extends Component{
       userInfo: [],
       userReviews: [],
       favouriteCoffee: [],
+      favouriteReviews: []
     }
   }
 
@@ -41,6 +42,7 @@ class FavouriteCoffee extends Component{
       console.log(responseJson);
       this.setState({
           favouriteCoffee: responseJson.favourite_locations,
+          favouriteReviews: responseJson.favourite_locations.location_reviews
       })
           console.log("collected data!");
     })
@@ -55,8 +57,8 @@ class FavouriteCoffee extends Component{
       <View>
         <Text style = {styles.locationText}>{"\n"}{"\n"}{item.location_name}, found in {item.location_town}{"\n"}{"\n"}
         Average Rating: {item.avg_overall_rating}{"\n"}{"\n"}
-        Reviews:{"\n"}{"\n"}{item.location_reviews.review_id}{"\n"}
-        {item.location_reviews.review_body}{"\n"}
+        Reviews:
+        {item.location_reviews.[0].review_body}{"\n"}
         </Text>
       </View>
     )
@@ -64,9 +66,10 @@ class FavouriteCoffee extends Component{
 render(){
   const navigation = this.props.navigation;
   console.log(this.state.favouriteCoffee)
+  console.log(this.state.favouriteReviews)
   return(
     <SafeAreaView style={styles.container}>
-      <Text style = {styles.reviewtitle}> My FavouriteShop </Text>
+      <Text style = {styles.reviewtitle}> My Favourite Shop </Text>
       <FlatList
         data={this.state.favouriteCoffee}
         renderItem={this.renderItem}

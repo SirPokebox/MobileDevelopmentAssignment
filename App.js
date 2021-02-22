@@ -15,6 +15,7 @@ import MakeReview from './components/CreateReview.js'
 import UserProfile from './components/User.js'
 import UserReviews from './components/UserReviews.js'
 import FavouriteCoffee from './components/FavouriteShop.js'
+import UpdateReviews from './components/UpdateReview.js'
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ class App extends Component{
           <Stack.Screen options= {{headerShown: false}} name="UserProfile" component ={UserProfile}/>
           <Stack.Screen options= {{headerShown: false}} name="UserReviews" component ={UserReviews}/>
           <Stack.Screen options = {{headerShown: false}} name="FavouriteCoffee" component ={FavouriteCoffee}/>
+          <Stack.Screen name="UpdateReviews" component ={UpdateReviews}/>
         </Stack.Navigator>
       </NavigationContainer>
       );

@@ -51,9 +51,16 @@ class UserReviews extends Component{
   }
 
   renderItem = ({ item, index }) => {
+    const navigation = this.props.navigation;
     return (
       <View>
-        <Text style = {styles.locationText}>Review ID: {item.review.review_id}{"\n"}{"\n"}{item.location.location_name}, found in {item.location.location_town}{"\n"}{"\n"}Review:{"\n"}{"\n"}{item.review.review_body}</Text>
+        <Text style = {styles.locationText}>Review ID: {item.review.review_id}{"\n"}{"\n"}{item.location.location_name}, found in {item.location.location_town}{"\n"}{"\n"}Overall Rating: {item.review.overall_rating}{"\n"}{"\n"}Review:{"\n"}{"\n"}{item.review.review_body}</Text>
+        <TouchableOpacity
+          style = {styles.button}
+          onPress={() => this.props.navigation.navigate('UpdateReviews', {revid: item.review.review_id, locid: item.location.location_id, revBody: item.review.review_body, locName: item.location.location_name, locTown: item.location.location_name, overallRating: item.review.overall_rating})}
+          >
+            <Text style = {styles.text}>Update Review</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -91,8 +98,6 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 25,
-    margin: 5,
-    marginBottom: 20
   },
   locationText: {
     color: 'black',
@@ -101,7 +106,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'black',
     borderWidth: 1,
-    margin: 5
+    margin: 5,
+    width: "100%"
   },
   buttonLocation: {
     marginTop: 5,
