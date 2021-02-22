@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     width:"100%",
     borderRadius:25,
-    height:50
+    height:40
 
   },
   button: {

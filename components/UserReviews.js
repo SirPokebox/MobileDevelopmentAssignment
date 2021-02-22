@@ -59,7 +59,7 @@ class UserReviews extends Component{
           style = {styles.button}
           onPress={() => this.props.navigation.navigate('UpdateReviews', {revid: item.review.review_id, locid: item.location.location_id, revBody: item.review.review_body, locName: item.location.location_name, locTown: item.location.location_name, overallRating: item.review.overall_rating})}
           >
-            <Text style = {styles.text}>Update Review</Text>
+          <Text style = {styles.text}>Update Review</Text>
         </TouchableOpacity>
       </View>
     )
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 25,
+    textAlign: "center",
   },
   locationText: {
     color: 'black',
@@ -119,13 +120,13 @@ const styles = StyleSheet.create({
     borderRadius:25
   },
   button: {
-    marginTop: 10,
     marginBottom:10,
     alignItems: 'center',
     backgroundColor: '#8B4513',
     padding: 10,
     width:"100%",
-    borderRadius:25
+    borderRadius:25,
+    height: 50
   },
   pagetitle: {
     fontWeight: 'bold',
