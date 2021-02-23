@@ -71,7 +71,17 @@ render(){
       <Text style = {styles.reviewtitle}> My Reviews </Text>
       <FlatList
         data={this.state.userReviews.sort((a, b) => {return b.review.review_id - a.review.review_id;})}
-        renderItem={this.renderItem}
+        renderItem={({item}) => (
+          <View>
+            <Text style = {styles.locationText}>Review ID: {item.review.review_id}{"\n"}{"\n"}{item.location.location_name}, found in {item.location.location_town}{"\n"}{"\n"}Overall Rating: {item.review.overall_rating}{"\n"}{"\n"}Review:{"\n"}{"\n"}{item.review.review_body}</Text>
+            <TouchableOpacity
+              style = {styles.button}
+              onPress={() => this.props.navigation.navigate('UpdateReviews', {revid: item.review.review_id, locid: item.location.location_id, revBody: item.review.review_body, locName: item.location.location_name, locTown: item.location.location_name, overallRating: item.review.overall_rating})}
+              >
+              <Text style = {styles.text}>Update Review</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         keyExtractor={(item, index) => index.toString()}
         extraData={this.state.userReviews}
         />

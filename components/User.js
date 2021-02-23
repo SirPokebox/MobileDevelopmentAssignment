@@ -104,7 +104,7 @@ render(){
       <Text style = {styles.pagetitle}>My Profile</Text>
       <Text style = {styles.locationText}>First Name: {this.state.firstName}{"\n"}Last Name: {this.state.lastName}{"\n"}Email: {this.state.userEmail}</Text>
 
-        <Text style = {styles.text}>Update My Details</Text>
+        <Text style = {styles.text}>Insert New Details:</Text>
         <TextInput
         placeholder="first name"
         onChangeText={(first_name) => this.setState({first_name})}
@@ -143,6 +143,12 @@ render(){
         </TouchableOpacity>
         <TouchableOpacity
           style = {styles.button}
+          onPress={() => navigation.navigate('FavouritePlace')}
+          >
+        <Text style = {styles.text}>Select My Favourite Shop</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => navigation.navigate('Coffee')}
           >
         <Text style = {styles.text}>Return to home screen</Text>
@@ -173,7 +179,8 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     margin: 5,
-    width: "100%"
+    width: "100%",
+    textAlign: 'center'
   },
   buttonLocation: {
     marginTop: 5,

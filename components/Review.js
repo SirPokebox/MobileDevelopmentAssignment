@@ -74,6 +74,12 @@ class Coffee extends Component{
         </TouchableOpacity>
         <TouchableOpacity
           style = {styles.button}
+          onPress={() => navigation.navigate('ViewAllReviews')}
+          >
+            <Text style = {styles.text}>See All Reviews</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => navigation.navigate('MakeReview')}
           >
             <Text style = {styles.text}>Make a review</Text>

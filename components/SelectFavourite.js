@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndro
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CheckBox from '@react-native-community/checkbox';
 
-class MakeReview extends Component{
+class FavouritePlace extends Component{
   constructor(props) {
     super(props);
     this.state={
@@ -53,25 +53,16 @@ class MakeReview extends Component{
     });
   }
 
-submitReview = async () => {
-  let post_toServer = {
-    overall_rating: parseInt(this.state.overall_rating),
-    price_rating: parseInt(this.state.price_rating),
-    quality_rating: parseInt(this.state.quality_rating),
-    clenliness_rating: parseInt(this.state.clenliness_rating),
-    review_body: this.state.review_body
-  }
+SelectFavouriteShop = async () => {
   let token = await AsyncStorage.getItem('@session_token');
-  return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/review", {
+  return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/favourite", {
     method: 'post',
     headers: {
-      'Content-Type': 'application/json',
       'X-Authorization': token
     },
-    body: JSON.stringify(post_toServer)
   })
   .then((response) => {
-      if(response.status === 201){
+      if(response.status === 200){
         return response
       }else if(response.status === 400){
         throw 'Bad Request';
@@ -80,22 +71,46 @@ submitReview = async () => {
       }
   })
   .then((responseJson) => {
-        ToastAndroid.show('Review Submitted!', ToastAndroid.SHORT);
+        ToastAndroid.show('You have favourited a shop!', ToastAndroid.SHORT);
         console.log(responseJson);
-        console.log(post_toServer);
-        this.props.navigation.navigate("Coffee");
+        this.props.navigation.navigate("UserProfile");
   })
   .catch((error) => {
       console.log(error);
       ToastAndroid.show(error, ToastAndroid.SHORT);
   })
-
-
 }
 
+UnfavouriteShop = async () => {
+  let token = await AsyncStorage.getItem('@session_token');
+  return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/favourite", {
+    method: 'delete',
+    headers: {
+      'X-Authorization': token
+    },
+  })
+  .then((response) => {
+      if(response.status === 200){
+        return response
+      }else if(response.status === 400){
+        throw 'Bad Request';
+      }else{
+        throw 'Something went wrong';
+      }
+  })
+  .then((responseJson) => {
+        ToastAndroid.show('You have unfavourited a shop!', ToastAndroid.SHORT);
+        console.log(responseJson);
+        this.props.navigation.navigate("UserProfile");
+  })
+  .catch((error) => {
+      console.log(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
+  })
+}
   DisableButtons = () => {
     this.setState({
-      ButtonState: true
+      ButtonState: true,
     })
   }
   renderItem = ({ item, index }) => {
@@ -106,6 +121,7 @@ submitReview = async () => {
         onPress={() => {
           this.setState({loc_id : item.location_id})
           this.DisableButtons()
+          ToastAndroid.show(item.location_name+" Selected!", ToastAndroid.SHORT);
         }}
         disabled = {this.state.ButtonState}
         >
@@ -119,54 +135,32 @@ submitReview = async () => {
     const navigation = this.props.navigation;
     return(
       <View style ={styles.container}>
-        <Text style = {styles.pagetitle}>Create Review</Text>
+        <Text style = {styles.pagetitle}>Select Your Favourite Shop</Text>
         <FlatList
           data={this.state.locationData.sort((a, b) => {return a.location_id - b.location_id;})}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString()}
           extraData={this.state.locationData}
           />
-          <TextInput
-          placeholder="Overall Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(overall_rating) => this.setState({overall_rating})}
-          value={this.state.overall_rating}
-          style={styles.input}
-          />
-          <TextInput
-          placeholder="Price Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(price_rating) => this.setState({price_rating})}
-          value={this.state.price_rating}
-          style={styles.input}
-          />
-          <TextInput
-          placeholder="Quality Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(quality_rating) => this.setState({quality_rating})}
-          value={this.state.quality_rating}
-          style={styles.input}
-          />
-          <TextInput
-          placeholder="Clenliness Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(clenliness_rating) => this.setState({clenliness_rating})}
-          value={this.state.clenliness_rating}
-          style={styles.input}
-          />
-          <TextInput
-          placeholder="Review:"
-          onChangeText={(review_body) => this.setState({review_body})}
-          value={this.state.review_body}
-          style={styles.input}
-          />
+          <View style = {styles.sideBysideButtons}>
           <TouchableOpacity
-          style = {styles.button}
-          onPress={() => {
-          this.submitReview()
-          }}
-          >
-          <Text style = {styles.text}>Submit Review</Text>
+            style = {styles.favButton}
+            onPress={() => this.SelectFavouriteShop()}
+            >
+              <Text style = {styles.textFav}>Favourite Selected</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style = {styles.favButton}
+            onPress={() => this.UnfavouriteShop()}
+            >
+              <Text style = {styles.textFav}>Unfavourite Selected</Text>
+          </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style = {styles.button}
+            onPress={() => navigation.navigate('UserProfile')}
+            >
+              <Text style = {styles.text}>Return to my details</Text>
           </TouchableOpacity>
           </View>
     );
@@ -187,9 +181,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 25
   },
+  sideBysideButtons:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent:'space-around'
+  },
   locationText: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 25,
     padding: 1
   },
   button: {
@@ -200,6 +199,22 @@ const styles = StyleSheet.create({
     padding: 10,
     width:"100%",
     borderRadius:25
+  },
+  textFav: {
+    color: 'white',
+    fontSize: 15,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  favButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#8B4513',
+    padding: 5,
+    width:"50%",
+    height:"100%",
+    borderColor: 'white',
+    borderWidth: 1
   },
   buttonLocation: {
     marginTop: 5,
@@ -238,10 +253,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 50,
     color: 'white',
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 35,
     textAlign:"center"
   }
 });
 
 
-export default MakeReview;
+export default FavouritePlace;
