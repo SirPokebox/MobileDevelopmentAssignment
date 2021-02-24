@@ -1,16 +1,59 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, Image } from 'react-native'
-import { RNCamera } from 'reaact-native-camera'
+import { RNCamera } from 'react-native-camera'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-class Camera extends Component {
+class Photo extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state={
+      loc_id : "",
+      rev_id: "",
+    }
+  }
+    componentDidMount(){
+      const {revid} = this.props.route.params;
+      const {locid} = this.props.route.params;
+      this.setState({
+        loc_id: locid,
+        rev_id: revid
+      });
+    }
 
   takePicture = async() => {
     if(this.camera){
       const options = {quality:0.5, base64:true}
       const data = await this.camera.takePictureAsync(options);
-
+      let token = await AsyncStorage.getItem('@session_token');
       console.log(data.uri);
 
+      return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/review/"+(this.state.rev_id)+"/photo", {
+        method: 'post',
+        headers: {
+          "Content-Type": "image/jpeg",
+          'X-Authorization': token
+        },
+        body: data
+      })
+      .then((response) => {
+          if(response.status === 200){
+            return response
+          }else if(response.status === 400){
+            throw 'Bad Request';
+          }else{
+            throw 'Something went wrong';
+          }
+      })
+      .then((responseJson) => {
+            ToastAndroid.show('Photo Uploaded!', ToastAndroid.SHORT);
+            console.log(responseJson);
+            this.props.navigation.navigate("UserReviews");
+      })
+      .catch((error) => {
+          console.log(error);
+          ToastAndroid.show(error, ToastAndroid.SHORT);
+      })
       
     }
   }
@@ -24,6 +67,7 @@ class Camera extends Component {
             this.camera = ref
           }}
           style={styles.preview}
+          captureAudio={false}
           />
         <Button title='Take Picture' onPress={() => { this.takePicture() }} />
       </View>
@@ -86,4 +130,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Camera
+export default Photo

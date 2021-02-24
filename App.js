@@ -15,6 +15,8 @@ import FavouriteCoffee from './components/FavouriteShop.js'
 import UpdateReviews from './components/UpdateReview.js'
 import ViewAllReviews from './components/AllReviews.js'
 import FavouritePlace from './components/SelectFavourite.js'
+import Photo from './components/Camera.js'
+import ReviewPhoto from './components/ViewPhoto.js'
 
 const Stack = createStackNavigator()
 
@@ -29,11 +31,13 @@ class App extends Component {
           <Stack.Screen name='Map View' component={UserLocation} />
           <Stack.Screen name='MakeReview' component={MakeReview} />
           <Stack.Screen options={{ headerShown: false }} name='UserProfile' component={UserProfile} />
-          <Stack.Screen options={{ headerShown: false }} name='UserReviews' component={UserReviews} />
+          <Stack.Screen name='UserReviews' component={UserReviews} />
           <Stack.Screen options={{ headerShown: false }} name='FavouriteCoffee' component={FavouriteCoffee} />
           <Stack.Screen options={{ headerShown: false }} name='ViewAllReviews' component={ViewAllReviews} />
           <Stack.Screen name='UpdateReviews' component={UpdateReviews} />
           <Stack.Screen options={{ headerShown: false }} name='FavouritePlace' component={FavouritePlace} />
+          <Stack.Screen name='Photo' component={Photo} />
+          <Stack.Screen name='ReviewPhoto' component={ReviewPhoto} />
 
         </Stack.Navigator>
       </NavigationContainer>
