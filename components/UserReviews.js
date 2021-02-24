@@ -72,7 +72,7 @@ render(){
       <FlatList
         data={this.state.userReviews.sort((a, b) => {return b.review.review_id - a.review.review_id;})}
         renderItem={({item}) => (
-          <View>
+          <View style ={styles.container}>
             <Text style = {styles.locationText}>Review ID: {item.review.review_id}{"\n"}{"\n"}{item.location.location_name}, found in {item.location.location_town}{"\n"}{"\n"}Overall Rating: {item.review.overall_rating}{"\n"}{"\n"}Review:{"\n"}{"\n"}{item.review.review_body}</Text>
             <TouchableOpacity
               style = {styles.button}
@@ -85,12 +85,6 @@ render(){
         keyExtractor={(item, index) => index.toString()}
         extraData={this.state.userReviews}
         />
-        <TouchableOpacity
-          style = {styles.button}
-          onPress={() => navigation.navigate('UserProfile')}
-          >
-            <Text style = {styles.text}>Return to my details</Text>
-        </TouchableOpacity>
         </SafeAreaView>
 
   );

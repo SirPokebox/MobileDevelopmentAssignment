@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CheckBox from '@react-native-community/checkbox';
+import {Rating, AirbnbRating } from 'react-native-ratings';
 
 class MakeReview extends Component{
   constructor(props) {
@@ -81,8 +81,6 @@ submitReview = async () => {
   })
   .then((responseJson) => {
         ToastAndroid.show('Review Submitted!', ToastAndroid.SHORT);
-        console.log(responseJson);
-        console.log(post_toServer);
         this.props.navigation.navigate("Coffee");
   })
   .catch((error) => {
@@ -114,8 +112,19 @@ submitReview = async () => {
       </View>
     )
   }
+  overallRating= (rating) =>{
+    this.setState({overall_rating: rating.toString()})
+  }
+  priceRating = (rating) =>{
+    this.setState({price_rating: rating.toString()})
+  }
+  qualityRating = (rating) =>{
+    this.setState({quality_rating: rating.toString()})
+  }
+  clenlinessRating = (rating) =>{
+    this.setState({clenliness_rating: rating.toString()})
+  }
   render(){
-    console.log(this.state.loc_id);
     const navigation = this.props.navigation;
     return(
       <View style ={styles.container}>
@@ -126,33 +135,37 @@ submitReview = async () => {
           keyExtractor={(item, index) => index.toString()}
           extraData={this.state.locationData}
           />
-          <TextInput
-          placeholder="Overall Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(overall_rating) => this.setState({overall_rating})}
-          value={this.state.overall_rating}
-          style={styles.input}
+          <Text style ={styles.text}>Overall Rating:</Text>
+          <AirbnbRating
+            defaultRating={0}
+            Count={5}
+            Size={5}
+            showRating={false}
+            onFinishRating={this.overallRating}
           />
-          <TextInput
-          placeholder="Price Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(price_rating) => this.setState({price_rating})}
-          value={this.state.price_rating}
-          style={styles.input}
+          <Text style ={styles.text}>Price Rating:</Text>
+          <AirbnbRating
+            defaultRating={0}
+            Count={5}
+            Size={5}
+            showRating={false}
+            onFinishRating={this.priceRating}
           />
-          <TextInput
-          placeholder="Quality Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(quality_rating) => this.setState({quality_rating})}
-          value={this.state.quality_rating}
-          style={styles.input}
+          <Text style ={styles.text}>Quality Rating:</Text>
+          <AirbnbRating
+            defaultRating={0}
+            Count={5}
+            Size={5}
+            showRating={false}
+            onFinishRating={this.qualityRating}
           />
-          <TextInput
-          placeholder="Clenliness Rating/5"
-          keyboardType = 'numeric'
-          onChangeText={(clenliness_rating) => this.setState({clenliness_rating})}
-          value={this.state.clenliness_rating}
-          style={styles.input}
+          <Text style ={styles.text}>Clenliness Rating:</Text>
+          <AirbnbRating
+            defaultRating={0}
+            Count={5}
+            Size={5}
+            showRating={false}
+            onFinishRating={this.clenlinessRating}
           />
           <TextInput
           placeholder="Review:"

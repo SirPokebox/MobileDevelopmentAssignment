@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Rating, AirbnbRating } from 'react-native-ratings';
 
 import UserReviews from './UserReviews.js'
 class UpdateReviews extends Component{
@@ -89,7 +90,18 @@ class UpdateReviews extends Component{
         ToastAndroid.show(error, ToastAndroid.SHORT);
     })
   }
-
+  overallRating= (rating) =>{
+    this.setState({overall_rating: rating.toString()})
+  }
+  priceRating = (rating) =>{
+    this.setState({price_rating: rating.toString()})
+  }
+  qualityRating = (rating) =>{
+    this.setState({quality_rating: rating.toString()})
+  }
+  clenlinessRating = (rating) =>{
+    this.setState({clenliness_rating: rating.toString()})
+  }
 render(){
 
   const {revBody} = this.props.route.params;
@@ -98,37 +110,40 @@ render(){
   const {overallRating} = this.props.route.params;
 
   return(
-    <View  style ={styles.container}>
-    <Text style = {styles.pagetitle}> Update My Review </Text>
+    <SafeAreaView  style ={styles.container}>
     <Text style = {styles.text}> Current Review: </Text>
     <Text style = {styles.locationText}>Review ID: {this.state.rev_id}{"\n"}{"\n"}{(locName)}, found in {(locTown)}{"\n"}{"\n"}Overall Rating: {(overallRating)}{"\n"}{"\n"}Review:{"\n"}{"\n"}{(revBody)}</Text>
-    <TextInput
-    placeholder="Overall Rating/5"
-    keyboardType = 'numeric'
-    onChangeText={(overall_rating) => this.setState({overall_rating})}
-    value={this.state.overall_rating}
-    style={styles.input}
+    <Text style ={styles.text}>Overall Rating:</Text>
+    <AirbnbRating
+      defaultRating={0}
+      Count={5}
+      Size={5}
+      showRating={false}
+      onFinishRating={this.overallRating}
     />
-    <TextInput
-    placeholder="Price Rating/5"
-    keyboardType = 'numeric'
-    onChangeText={(price_rating) => this.setState({price_rating})}
-    value={this.state.price_rating}
-    style={styles.input}
+    <Text style ={styles.text}>Price Rating:</Text>
+    <AirbnbRating
+      defaultRating={0}
+      Count={5}
+      Size={5}
+      showRating={false}
+      onFinishRating={this.priceRating}
     />
-    <TextInput
-    placeholder="Quality Rating/5"
-    keyboardType = 'numeric'
-    onChangeText={(quality_rating) => this.setState({quality_rating})}
-    value={this.state.quality_rating}
-    style={styles.input}
+    <Text style ={styles.text}>Quality Rating:</Text>
+    <AirbnbRating
+      defaultRating={0}
+      Count={5}
+      Size={5}
+      showRating={false}
+      onFinishRating={this.qualityRating}
     />
-    <TextInput
-    placeholder="Clenliness Rating/5"
-    keyboardType = 'numeric'
-    onChangeText={(clenliness_rating) => this.setState({clenliness_rating})}
-    value={this.state.clenliness_rating}
-    style={styles.input}
+    <Text style ={styles.text}>Clenliness Rating:</Text>
+    <AirbnbRating
+      defaultRating={0}
+      Count={5}
+      Size={5}
+      showRating={false}
+      onFinishRating={this.clenlinessRating}
     />
     <TextInput
     placeholder="Review:"
@@ -152,7 +167,7 @@ render(){
     >
     <Text style = {styles.text}>Delete Review</Text>
     </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
 
