@@ -39,7 +39,7 @@ class UserReviews extends Component{
           throw 'Not Found';
         }else if(response.status === 500){
           throw 'Server Error';
-        else{
+        }else{
           throw 'Something went wrong';
         }
     })
