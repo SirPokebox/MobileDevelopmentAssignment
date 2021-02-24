@@ -35,7 +35,11 @@ class UserReviews extends Component{
           ToastAndroid.show("No user logged in!", ToastAndroid.SHORT);
           this.props.navigation.navigate('Home');
           throw 'Unauthorised';
-        }else{
+        }else if(response.status === 404){
+          throw 'Not Found';
+        }else if(response.status === 500){
+          throw 'Server Error';
+        else{
           throw 'Something went wrong';
         }
     })
@@ -65,6 +69,14 @@ class UserReviews extends Component{
           return response
         }else if(response.status === 400){
           throw 'Bad Request';
+        }else if(response.status === 401){
+          throw 'Unauthorised';
+        }else if(response.status === 403){
+          throw 'Forbidden';
+        }else if(response.status === 404){
+          throw 'Not Found';
+        }else if(response.status === 500){
+          throw 'Server Error';
         }else{
           throw 'Something went wrong';
         }

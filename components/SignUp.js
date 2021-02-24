@@ -37,6 +37,8 @@ class Register extends Component{
           return response.json()
         }else if(response.status === 400){
           throw 'Bad Request';
+        }else if(response.status === 500){
+          throw 'Server Error';
         }else{
           throw 'Something went wrong';
         }

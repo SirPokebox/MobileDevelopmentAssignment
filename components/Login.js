@@ -23,7 +23,9 @@ class Home extends Component{
         if(response.status === 200){
           return response.json()
         }else if(response.status === 400){
-          throw 'Bad Request';
+          throw 'Invalid Email/Password supplied';
+        }else if(response.status === 500){
+          throw 'Server Error';
         }else{
           throw 'Something went wrong';
         }

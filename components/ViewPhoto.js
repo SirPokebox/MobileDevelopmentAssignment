@@ -11,7 +11,7 @@ class ReviewPhoto extends Component{
     this.state={
       loc_id : "",
       rev_id: "",
-      data: null,
+      photoUrl: null,
     }
   }
 
@@ -46,7 +46,7 @@ class ReviewPhoto extends Component{
     })
     .then((responseJson) => {
           this.setState({
-            data: responseJson.url
+            photoUrl: responseJson.url
           })
           ToastAndroid.show('Found photo!', ToastAndroid.SHORT);
           console.log("Found photo: ", responseJson);
@@ -71,7 +71,7 @@ render(){
     <Text style = {styles.text}> Photo: </Text>
     <Image
       style = {styles.imageSize}
-      source = {{uri:this.state.data}}
+      source = {{uri:this.state.photoUrl}}
     />
     </SafeAreaView>
   )

@@ -36,6 +36,10 @@ class FavouritePlace extends Component{
           return response.json()
         }else if(response.status === 400){
           throw 'Bad Request';
+        }else if(response.status === 401){
+          throw 'Unauthorised';
+        }else if(response.status === 500){
+          throw 'Server Error';
         }else{
           throw 'Something went wrong';
         }
@@ -66,6 +70,12 @@ SelectFavouriteShop = async () => {
         return response
       }else if(response.status === 400){
         throw 'Bad Request';
+      }else if(response.status === 401){
+        throw 'Unauthorised';
+      }else if(response.status === 404){
+        throw 'Not Found';
+      }else if(response.status === 500){
+        throw 'Server Error';
       }else{
         throw 'Something went wrong';
       }
@@ -94,6 +104,14 @@ UnfavouriteShop = async () => {
         return response
       }else if(response.status === 400){
         throw 'Bad Request';
+      }else if(response.status === 401){
+        throw 'Unauthorised';
+      }else if(response.status === 403){
+        throw 'Forbidden';
+      }else if(response.status === 404){
+        throw 'Not Found';
+      }else if(response.status === 500){
+        throw 'Server Error';
       }else{
         throw 'Something went wrong';
       }

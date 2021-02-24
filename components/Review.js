@@ -37,7 +37,10 @@ class Coffee extends Component{
         this.props.navigation.navigate('Home');
       }else if(response.staus === 401){
         ToastAndroid.show("No user logged in!", ToastAndroid.SHORT);
+        throw 'Unauthorised';
         this.props.navigation.navigate('Home');
+      }else if(response.staus === 500){
+        throw 'Server Error';
       }else{
         throw 'something went wrong' ;
       }
