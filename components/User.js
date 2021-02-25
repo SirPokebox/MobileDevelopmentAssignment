@@ -186,6 +186,7 @@ render(){
         onChangeText={(password) => this.setState({password})}
         value={this.state.password}
         style={styles.input}
+        secureTextEntry
         />
         <TouchableOpacity
           style = {styles.button}
