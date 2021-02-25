@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView} from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class FavouriteCoffee uses a FlatList to display the reviews on their favourite coffee shops */
@@ -15,12 +15,16 @@ class FavouriteCoffee extends Component{
       favouriteReviews: [],
       loc_id: "",
       rev_id: "",
+      isLoading: true
     }
   }
 
 /** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 3000);
   }
 
   /**
@@ -170,6 +174,11 @@ render(){
   console.log(this.state.favouriteCoffee)
   console.log(this.state.favouriteReviews)
   return(
+    <View style ={styles.loadingScreen}>
+    {
+      this.state.isLoading ?
+    <ActivityIndicator size="large" color="white"/>
+    :
     <SafeAreaView style={styles.container}>
       <Text style = {styles.reviewtitle}> My Favourite Shop </Text>
       <FlatList
@@ -213,6 +222,8 @@ render(){
             <Text style = {styles.text}>Return Home</Text>
         </TouchableOpacity>
         </SafeAreaView>
+        }
+        </View>
 
   );
 }
@@ -229,6 +240,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#6F4E37',
     paddingHorizontal: 10
+  },
+  loadingScreen:{
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#6F4E37',
   },
   sideBysideButtons:{
     flex: 1,

@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, TextInput, Image} from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, TextInput, Image, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Rating, AirbnbRating } from 'react-native-ratings';
 
@@ -19,6 +19,7 @@ class ReviewPhoto extends Component{
       loc_id : "",
       rev_id: "",
       photoUrl: null,
+      isLoading: true
     }
   }
 
@@ -31,6 +32,9 @@ class ReviewPhoto extends Component{
       rev_id: revid
     });
     this.ViewUserReview();
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 3000);
   }
 
   /**
@@ -94,6 +98,11 @@ render(){
   const {overallRating} = this.props.route.params;
 
   return(
+    <View style ={styles.loadingScreen}>
+    {
+      this.state.isLoading ?
+    <ActivityIndicator size="large" color="white"/>
+    :
     <SafeAreaView  style ={styles.container}>
     <Text style = {styles.text}> Current Review: </Text>
     <Text style = {styles.locationText}>Review ID: {this.state.rev_id}{"\n"}{"\n"}{(locName)}, found in {(locTown)}{"\n"}{"\n"}Overall Rating: {(overallRating)}{"\n"}{"\n"}Review:{"\n"}{"\n"}{(revBody)}</Text>
@@ -103,6 +112,8 @@ render(){
       source = {{uri:this.state.photoUrl}}
     />
     </SafeAreaView>
+    }
+    </View>
   )
 }
 
@@ -118,6 +129,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#6F4E37',
     paddingHorizontal: 10
+  },
+  loadingScreen:{
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#6F4E37',
   },
   text: {
     color: 'white',

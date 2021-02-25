@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, SafeAreaView} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class UserReviews gets every review that the user has created and outputs them in a FlatList, the user also has the option to view, add or delete any of their photos attached to a review they have made as well as update their review */
@@ -15,13 +15,17 @@ class UserReviews extends Component{
       userReviews: [],
       favouriteCoffee: [],
       rev_id: "",
-      loc_id: ""
+      loc_id: "",
+      isLoading: true
     }
   }
 
 /** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 3000);
   }
 
 /**
@@ -121,29 +125,6 @@ class UserReviews extends Component{
   }
 
   /**
-  *  renderItem is an arrow function used to render a FlatList
-  *
-  *  the variables item and index are passed
-  *  within the <View> a <Text> is used to display the information from the FlatList data
-  *  A <TouchableOpacity> is also rendered under each <Text> that navigates them to another screen to update their review
-  * DELETE ME?
-  */
-  renderItem = ({ item, index }) => {
-    const navigation = this.props.navigation;
-    return (
-      <View>
-        <Text style = {styles.locationText}>Review ID: {item.review.review_id}{"\n"}{"\n"}{item.location.location_name}, found in {item.location.location_town}{"\n"}{"\n"}Overall Rating: {item.review.overall_rating}{"\n"}{"\n"}Review:{"\n"}{"\n"}{item.review.review_body}</Text>
-        <TouchableOpacity
-          style = {styles.button}
-          onPress={() => this.props.navigation.navigate('UpdateReviews', {revid: item.review.review_id, locid: item.location.location_id, revBody: item.review.review_body, locName: item.location.location_name, locTown: item.location.location_name, overallRating: item.review.overall_rating})}
-          >
-          <Text style = {styles.text}>Update Review</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  /**
   *  render displays everything out to the user side
   *
   *  <SafeAreaView> - is used and it contains the FlatList
@@ -156,6 +137,11 @@ class UserReviews extends Component{
 render(){
   const navigation = this.props.navigation;
   return(
+    <View style ={styles.loadingScreen}>
+    {
+      this.state.isLoading ?
+    <ActivityIndicator size="large" color="white"/>
+    :
     <SafeAreaView style={styles.container}>
       <Text style = {styles.reviewtitle}> My Reviews </Text>
       <FlatList
@@ -198,6 +184,8 @@ render(){
         extraData={this.state.userReviews}
         />
         </SafeAreaView>
+        }
+        </View>
 
   );
 }
@@ -214,6 +202,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#6F4E37',
     paddingHorizontal: 10
+  },
+  loadingScreen:{
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#6F4E37',
   },
   sideBysideButtons:{
     flex: 1,

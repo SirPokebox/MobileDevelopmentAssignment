@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ToastAndroid, SafeAreaView, TextInput} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ToastAndroid, SafeAreaView, TextInput, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class UserProfile displays the users account details and lets them update them if needed, they can also navigate to update their reviews, update their favourite shop or return to the home screen */
@@ -17,7 +17,8 @@ class UserProfile extends Component{
       first_name: "",
       last_name: "",
       email: "",
-      password: ""
+      password: "",
+      isLoading: true
 
     }
   }
@@ -25,6 +26,9 @@ class UserProfile extends Component{
 /** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 3000);
   }
 
   /**
@@ -149,8 +153,13 @@ class UserProfile extends Component{
   */
 render(){
   const navigation = this.props.navigation;
-  return(
-    <SafeAreaView style={styles.container}>
+  return( 
+      <View style ={styles.loadingScreen}>
+      {
+        this.state.isLoading ?
+      <ActivityIndicator size="large" color="white"/>
+      :
+      <SafeAreaView style={styles.container}>
       <Text style = {styles.pagetitle}>My Profile</Text>
       <Text style = {styles.locationText}>First Name: {this.state.firstName}{"\n"}Last Name: {this.state.lastName}{"\n"}Email: {this.state.userEmail}</Text>
 
@@ -203,7 +212,9 @@ render(){
           >
         <Text style = {styles.text}>Return to home screen</Text>
         </TouchableOpacity>
-        </SafeAreaView>
+      </SafeAreaView>
+      }
+      </View>
 
   );
 }
@@ -220,6 +231,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#6F4E37',
     paddingHorizontal: 10
+  },
+  loadingScreen:{
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#6F4E37',
   },
   text: {
     color: 'white',

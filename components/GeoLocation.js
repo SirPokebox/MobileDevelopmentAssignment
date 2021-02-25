@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, Alert, TouchableOpacity, PermissionsAndroid, Button, ToastAndroid} from 'react-native';
+import {StyleSheet, Text, View, Alert, TouchableOpacity, PermissionsAndroid, Button, ToastAndroid, ActivityIndicator } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapView, { PROVIDER_GOOGLE, Marker} from 'react-native-maps';
@@ -45,6 +45,7 @@ class UserLocation extends Component{
         longitude: 0
       },
       locationData: [],
+      isLoading: true
     };
   }
 
@@ -52,6 +53,9 @@ class UserLocation extends Component{
   componentDidMount() {
     this.getData();
     this.findCoordinates();
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 3000);
     };
 
     /**
@@ -142,9 +146,15 @@ class UserLocation extends Component{
   *  it also renders markers, one for the user location with a title and description and the other for coffee shops which has its name and town in the title/description
   */
   render(){
+
     const navigation = this.props.navigation;
     console.log(this.state.locationData)
     return(
+      <View style ={styles.loadingScreen}>
+      {
+        this.state.isLoading ?
+      <ActivityIndicator size="large" color="white"/>
+      :
       <View style ={{flex : 1}}>
       <MapView
         provider={PROVIDER_GOOGLE}
@@ -171,6 +181,8 @@ class UserLocation extends Component{
         />
       </MapView>
       </View>
+      }
+      </View>
     );
   }
 
@@ -188,6 +200,11 @@ class UserLocation extends Component{
       bottom: 0,
       alignItems: 'center',
       justifyContent: 'flex-end'
+    },
+    loadingScreen:{
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: '#6F4E37',
     },
     text: {
       color: 'white',

@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, ScrollView, SafeAreaView, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, ScrollView, SafeAreaView, FlatList, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class FavouritePlace lets the user select their favourite coffee shop from a FlatList */
@@ -18,13 +18,17 @@ class FavouritePlace extends Component{
       review_body: "",
       locationData: [],
       loc_id: "",
-      ButtonState: false
+      ButtonState: false,
+      isLoading: true
     }
   }
 
 /** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 3000);
   }
 
   /**
@@ -209,6 +213,11 @@ UnfavouriteShop = async () => {
     console.log(this.state.loc_id);
     const navigation = this.props.navigation;
     return(
+      <View style ={styles.loadingScreen}>
+      {
+        this.state.isLoading ?
+      <ActivityIndicator size="large" color="white"/>
+      :
       <View style ={styles.container}>
         <Text style = {styles.pagetitle}>Select Your Favourite Shop</Text>
         <FlatList
@@ -238,6 +247,8 @@ UnfavouriteShop = async () => {
               <Text style = {styles.text}>Return to my details</Text>
           </TouchableOpacity>
           </View>
+          }
+          </View>
     );
   }
 }
@@ -253,6 +264,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#6F4E37',
     paddingHorizontal: 10
+  },
+  loadingScreen:{
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#6F4E37',
   },
   text: {
     color: 'white',

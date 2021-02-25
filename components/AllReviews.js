@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, ToastAndroid, SafeAreaView, FlatList } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, ToastAndroid, SafeAreaView, FlatList, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class ViewAllReviews lets the user see every review that was made, this is displayed in a FlatList */
@@ -15,12 +15,16 @@ class ViewAllReviews extends Component{
       loc_id: "",
       locationRev: [],
       rev_id: "",
+      isLoading: true
     }
   }
 
 /** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 3000);
   }
 
   /**
@@ -176,6 +180,11 @@ class ViewAllReviews extends Component{
   render(){
     const navigation = this.props.navigation;
     return(
+      <View style ={styles.loadingScreen}>
+      {
+        this.state.isLoading ?
+      <ActivityIndicator size="large" color="white"/>
+      :
       <View style ={styles.container}>
         <Text style = {styles.pagetitle}>All Reviews</Text>
         <FlatList
@@ -225,6 +234,8 @@ class ViewAllReviews extends Component{
               <Text style = {styles.text}>Return Home</Text>
           </TouchableOpacity>
           </View>
+          }
+          </View>
     );
   }
 }
@@ -239,6 +250,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#6F4E37',
     paddingHorizontal: 10
+  },
+  loadingScreen:{
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#6F4E37',
   },
   sideBysideButtons:{
     flex: 1,
