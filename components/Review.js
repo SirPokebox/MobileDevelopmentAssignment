@@ -83,7 +83,7 @@ class Coffee extends Component{
 
     return(
       <View style ={styles.container}>
-        <Text style = {styles.pagetitle}>Review Screen</Text>
+        <Text style = {styles.pagetitle}>Home Screen</Text>
         <TouchableOpacity
           style = {styles.button}
           onPress={() => navigation.navigate('UserProfile')}
