@@ -1,3 +1,5 @@
+
+/** The following imports are required for this screen to function properly */
 import 'react-native-gesture-handler'
 
 import React, { Component } from 'react'
@@ -18,8 +20,10 @@ import FavouritePlace from './components/SelectFavourite.js'
 import Photo from './components/Camera.js'
 import ReviewPhoto from './components/ViewPhoto.js'
 
+/** Creates the stack navigator */
 const Stack = createStackNavigator()
 
+/** @description The class App creates the stack navigator */
 class App extends Component {
   render () {
     return (

@@ -1,27 +1,47 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/** @description The class Coffee is the home screen where the user can decide what they like to do on the application */
 class Coffee extends Component{
+
+  /** constructor used for props */
+  constructor(props){
+    super(props);
+  }
+
+  /** componentDidMount calls the function this.checkedLoggedIn and this.unsubscribe which double checks if a user is logged in or not */
   componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener('focus', () =>{
     this.checkedLoggedIn();
     });
   }
 
+  /** componentWillUnmount calls the function this.unsubscribe */
   componentWillUnmount(){
     this.unsubscribe();
   }
 
+  /** The async function checkedLoggedIn checks if the user has a token, if they do not they get navigated to the login screen*/
   checkedLoggedIn = async () => {
     const value = await AsyncStorage.getItem('@session_token');
     if (value == null) {
         this.props.navigation.navigate('Home');
     }
   };
-  constructor(props){
-    super(props);
-  }
+
+  /**
+  *  logout is an async arrow function used to log the user out
+  *
+  *  await AsyncStorage.getItem - retrieves the token and user id that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided, it is followed by a post request to the api which includes the token variable
+  *  .then((response) - if there is a 200 status code from the server a ToastAndroid is outputted to the user informing them they have logged out and they are navigated to the login screen Home
+  *  otherwise the api will throw a server error which is handled with if/else if statements 
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   logout = async () => {
     let token = await AsyncStorage.getItem('@session_token');
     await AsyncStorage.removeItem('@session_token');
@@ -50,7 +70,14 @@ class Coffee extends Component{
       ToastAndroid.show(error, ToastAndroid.SHORT);
     })
   }
-
+  
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <View> - is used and it contains the menu options
+  *  <Text> - is used to display the page title
+  *  <TouchableOpacity> - When pressed will direct the user to another part of the application whether that is making a review or viewing their profile or logging out and calling the logout function
+  */
   render(){
     const navigation = this.props.navigation;
 
@@ -98,6 +125,9 @@ class Coffee extends Component{
   }
 }
 
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,

@@ -1,11 +1,17 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, TextInput, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Rating, AirbnbRating } from 'react-native-ratings';
 
+/** imports the class UserReviews */
 import UserReviews from './UserReviews.js'
+
+/** @description The class ReviewPhoto lets the user view the review made and photo that was uploaded to that review */
 class ReviewPhoto extends Component{
 
+/** This.state constructor initialises the variabes: photoUrl loc_id and rev_id */
   constructor(props) {
     super(props);
     this.state={
@@ -15,6 +21,7 @@ class ReviewPhoto extends Component{
     }
   }
 
+/** componentDidMount sets the state of loc_id and rev_id to the const locid and revid which are stored in this.props.route.params which have been passed over from the previous screen, it also calls the ViewUserReview function */
   componentDidMount(){
     const {revid} = this.props.route.params;
     const {locid} = this.props.route.params;
@@ -24,6 +31,18 @@ class ReviewPhoto extends Component{
     });
     this.ViewUserReview();
   }
+
+  /**
+  *  ViewUserReview is an async arrow function used to view a reviews photo
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided + the variable loc_id and the variable rev_id, it is followed by a get request to the api which includes the token variable and content-type
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is set to the variable photoUrl and is outputted to the console and a ToastAndroid is shown to the user
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   ViewUserReview = async () => {
     let token = await AsyncStorage.getItem('@session_token');
     return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/review/"+(this.state.rev_id)+"/photo", {
@@ -57,6 +76,15 @@ class ReviewPhoto extends Component{
         ToastAndroid.show(error, ToastAndroid.SHORT);
     })
   }
+
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <SafeAreaView> - is used and it contains the current review selected and the image related to that review
+  *  <Text> - is used to display the review from the previous screen using this.props.route.params
+  *  <Image> - is used to display the review using the variable photoUrl
+  *
+  */
 render(){
 
   const {revBody} = this.props.route.params;
@@ -78,6 +106,10 @@ render(){
 }
 
 }
+
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,

@@ -1,8 +1,13 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, TextInput} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ToastAndroid, SafeAreaView, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/** @description The class UserProfile displays the users account details and lets them update them if needed, they can also navigate to update their reviews, update their favourite shop or return to the home screen */
 class UserProfile extends Component{
+
+  /** This.state constructor initialises the variabes: first_name, last_name, firstName, lastName, userEmail, email and password */
   constructor(props) {
     super(props);
     this.state={
@@ -17,10 +22,22 @@ class UserProfile extends Component{
     }
   }
 
+/** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
   }
 
+  /**
+  *  getData is an async arrow function used to gather all the information on the user
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided, it is followed by a get request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is set to the variable firstName, lastName and userEmail
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   getData = async () => {
     console.log("fetching user data now");
     let token = await AsyncStorage.getItem('@session_token');
@@ -64,6 +81,19 @@ class UserProfile extends Component{
     });
   }
 
+  /**
+  *  UpdateAccount is an async arrow function used to update a user review
+  *
+  *  await AsyncStorage.getItem - retrieves the token and userID that is stored witihin async storage
+  * let update_toServer - sets all the variables relevant to updating account details
+  *  return fetch -  makes a request to the url provided + the variable userID, it is followed by a patch request to the api which includes the token variable and content-type
+  *  body - is set to update_toServer which is JSON.stringified
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user, they are then navigated to the Coffee screen
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   UpdateAccount = async () => {
     let token = await AsyncStorage.getItem('@session_token');
     let userID = await AsyncStorage.getItem('id');
@@ -109,6 +139,14 @@ class UserProfile extends Component{
     })
   }
 
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <SafeAreaView> - is used and it contains their user details
+  *  <Text> - is used to display the page title
+  *  <TextInput> - used for the user to input their details and changes the state of: first_name, last_name, email and password
+  *  <TouchableOpacity> - When pressed will take them to a different screen (UserReviews, FavouritePlace or Coffee) or update their account details
+  */
 render(){
   const navigation = this.props.navigation;
   return(
@@ -171,6 +209,10 @@ render(){
 }
 
 }
+
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,

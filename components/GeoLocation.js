@@ -1,10 +1,12 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, Alert, TouchableOpacity, PermissionsAndroid, Button, ToastAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapView, { PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 
-
+/** The async function requestLocationPermission requests the users permission to access their location */
 async function requestLocationPermission() {
    try{
      const granted = await PermissionsAndroid.request(
@@ -29,28 +31,40 @@ async function requestLocationPermission() {
      console.warn(err);
    }
   }
-class UserLocation extends Component{
-  componentDidMount() {
-    this.getData();
-    this.findCoordinates();
-    };
 
+/** @description The class UserLocation gets the users location and creates a MapView that shows where the user is on the map, it also plots markers of the coffee shops stored in the api */
+class UserLocation extends Component{
+
+/** This.state constructor initialises the variabes/arrays: locationPermission, latlon and locationData */
   constructor(props){
     super(props);
     this.state={
-      location : null,
       locationPermission: false,
       latlon:{
         latitude: 0,
         longitude: 0
       },
       locationData: [],
-      coffeeShops:{
-      coffeelat: 0,
-      coffeelon: 0
-    }
     };
   }
+
+/** componentDidMount calls the function this.getData() and this.findCoordinates() in the first render cycle */
+  componentDidMount() {
+    this.getData();
+    this.findCoordinates();
+    };
+
+    /**
+    *  getData is an async arrow function used to gather all location information
+    *
+    *  await AsyncStorage.getItem - retrieves the token and user id that is stored witihin async storage
+    *  return fetch-  makes a request to the url provided, it is followed by a get request to the api which includes the token variable
+    *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+    *  otherwise the api will throw a server error which is handled with if/else if statements
+    *  .then((responseJson) - then the request retrieved from the server is set to the variable locationData and console.logs the responseJSON and locationData
+    *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+    *
+    */
   getData = async () => {
     console.log("fetching location data now");
     let token = await AsyncStorage.getItem('@session_token');
@@ -86,12 +100,16 @@ class UserLocation extends Component{
     });
   }
 
+    /** findCoordinates checks if the user has enabled their location/given permission */
   findCoordinates = () => {
     if(!this.state.locationPermission){
       console.log('requesting permission');
       this.state.locationPermission = requestLocationPermission();
     }
 
+    /** Geolocation.getCurrentPosition gets the users current location in coordinates and sets the latitude and longitude variables using setState
+    *   if there is an error an alert box will be outputted to the user displaynig the error
+    */
     Geolocation.getCurrentPosition(
       (position) => {
         const location = JSON.stringify(position);
@@ -115,10 +133,17 @@ class UserLocation extends Component{
       }
     );
   }
+
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <View> - is used and it contains the MapView
+  *  <MapView> - renders the map using GoogleMaps api and is provided with latitude and longitude for the region 
+  *  it also renders markers, one for the user location with a title and description and the other for coffee shops which has its name and town in the title/description
+  */
   render(){
     const navigation = this.props.navigation;
     console.log(this.state.locationData)
-    console.log(this.state.coffeeShops)
     return(
       <View style ={{flex : 1}}>
       <MapView
@@ -151,6 +176,9 @@ class UserLocation extends Component{
 
 }
 
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
   const styles = StyleSheet.create({
     container:{
       position: 'absolute',

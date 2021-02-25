@@ -1,9 +1,14 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Rating, AirbnbRating } from 'react-native-ratings';
 
+/** @description The class MakeReview uses the AirbnbRatings for the user to input their ratings for a review, they can also type in their review using a TextInput */
 class MakeReview extends Component{
+
+  /** This.state constructor initialises the variabes/arrays: overall_rating, price_rating, quality_rating, clenliness_rating, review_body, locationData, loc_id, ButtonState */
   constructor(props) {
     super(props);
     this.state={
@@ -18,10 +23,22 @@ class MakeReview extends Component{
     }
   }
 
+/** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
   }
 
+  /**
+  *  getData is an async arrow function used to gather all location information
+  *
+  *  await AsyncStorage.getItem - retrieves the token and user id that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided, it is followed by a get request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is set to the variable locationData and console.logs the responseJSON and locationData
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   getData = async () => {
     console.log("fetching location data now");
     let token = await AsyncStorage.getItem('@session_token');
@@ -53,6 +70,18 @@ class MakeReview extends Component{
     });
   }
 
+  /**
+  *  submitReview is an async arrow function used to submit a review
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided + the variable loc_id, it is followed by a post request to the api which includes the token variable
+  *  body - is set to post_toServer which is JSON.stringified
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user, they are then navigated to the Coffee screen
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
 submitReview = async () => {
   let post_toServer = {
     overall_rating: parseInt(this.state.overall_rating),
@@ -97,11 +126,21 @@ submitReview = async () => {
 
 }
 
+/** DisableButtons is an arrow function that sets ButtonState to true */
   DisableButtons = () => {
     this.setState({
       ButtonState: true
     })
   }
+
+  /**
+  *  renderItem is an arrow function used to render a FlatList
+  *
+  *  the variables item and index are passed
+  *  <View> - contains the <Text> and <TouchableOpacity>
+  *  <Text> - is used to display the information from the FlatList data
+  *  <TouchableOpacity> - is used to show the location name and location town of a coffee shop
+  */
   renderItem = ({ item, index }) => {
     return (
       <View>
@@ -118,6 +157,10 @@ submitReview = async () => {
       </View>
     )
   }
+
+  /**
+  * overallRating, priceRating, qualityRating and clenlinessRating all set their corresponding AirbnbRating input values to the variabes: overall_rating, price_rating, quality_rating and clenliness_rating using this.setState
+  */
   overallRating= (rating) =>{
     this.setState({overall_rating: rating.toString()})
   }
@@ -130,6 +173,17 @@ submitReview = async () => {
   clenlinessRating = (rating) =>{
     this.setState({clenliness_rating: rating.toString()})
   }
+
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <SafeAreaView> - is used and it contains their user details
+  *  <Text> - is used to display the page title
+  *  <FlatList> - displays the variable locationData which is passed to data and is sorted by location_id (1 to 5)
+  *  <TextInput> - used for the user to input the review and changes the review_body state
+  *  <AirbnbRating> - used to take user input for ratings, one for overallRating, priceRating, qualityRating and clenlinessRating
+  *  <TouchableOpacity> - When pressed call the submitReview function
+  */
   render(){
     const navigation = this.props.navigation;
     return(
@@ -192,8 +246,9 @@ submitReview = async () => {
   }
 }
 
-
-
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,

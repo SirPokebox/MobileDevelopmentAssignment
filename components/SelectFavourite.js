@@ -1,9 +1,13 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CheckBox from '@react-native-community/checkbox';
 
+/** @description The class FavouritePlace lets the user select their favourite coffee shop from a FlatList */
 class FavouritePlace extends Component{
+
+/** This.state constructor initialises the variabes/arrays: overall_rating, price_rating, quality_rating, clenliness_rating, review_body, locationData, loc_id and ButtonState */
   constructor(props) {
     super(props);
     this.state={
@@ -18,10 +22,22 @@ class FavouritePlace extends Component{
     }
   }
 
+/** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
   }
 
+  /**
+  *  getData is an async arrow function used to gather all the information on the coffe shops
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided, it is followed by a get request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is set to the variable locationData
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   getData = async () => {
     console.log("fetching location data now");
     let token = await AsyncStorage.getItem('@session_token');
@@ -57,6 +73,17 @@ class FavouritePlace extends Component{
     });
   }
 
+  /**
+  *  SelectFavouriteShop is an async arrow function used to select a users favourite shop
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided + the variable loc_id, it is followed by a post request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user, they are then navigated to the UserProfile screen
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
 SelectFavouriteShop = async () => {
   let token = await AsyncStorage.getItem('@session_token');
   return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/favourite", {
@@ -91,6 +118,17 @@ SelectFavouriteShop = async () => {
   })
 }
 
+/**
+*  UnfavouriteShop is an async arrow function used to Unfavourite a users favourite shop
+*
+*  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+*  return fetch-  makes a request to the url provided + the variable loc_id, it is followed by a delete request to the api which includes the token variable
+*  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+*  otherwise the api will throw a server error which is handled with if/else if statements
+*  .then((responseJson) - then the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user, they are then navigated to the UserProfile screen
+*  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+*
+*/
 UnfavouriteShop = async () => {
   let token = await AsyncStorage.getItem('@session_token');
   return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/favourite", {
@@ -131,6 +169,15 @@ UnfavouriteShop = async () => {
       ButtonState: true,
     })
   }
+
+  /**
+  *  renderItem is an arrow function used to render a FlatList
+  *
+  *  the variables item and index are passed
+  *  within the <View> is a <TouchableOpacity> which displays the location_name and location_town of a coffee shop, when pressed it sets the state of loc_id to item.location_id and a ToastAndroid is displayed to the user
+  * it also calls the this.DisableButtons() which sets the ButtonState variable to true, meaning the user cannot select multiple shops at once
+  * 
+  */
   renderItem = ({ item, index }) => {
     return (
       <View>
@@ -148,6 +195,16 @@ UnfavouriteShop = async () => {
       </View>
     )
   }
+
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <View> - is used and it contains the FlatList
+  *  <FlatList> - displays the variable locationData which is passed to data and is sorted from smallest locaction_id to highest
+  *  renderItem - calls the renderItem function to display the FlatList
+  *  <TouchableOpacity> - is outside of the FlatList and calls either SelectFavouriteShop or UnfavouriteShop depending on which one the user clicks, there is also another <TouchableOpacity> which takes them back to the previous screen
+  *
+  */
   render(){
     console.log(this.state.loc_id);
     const navigation = this.props.navigation;
@@ -186,7 +243,9 @@ UnfavouriteShop = async () => {
 }
 
 
-
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,

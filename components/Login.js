@@ -1,8 +1,13 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/** @description The class Home is the loginscreen where the user must enter an email and password into the TextInputs to logon to the app */
 class Home extends Component{
+
+  /** This.state constructor initialises the variabes: email and password */
   constructor(props) {
     super(props);
     this.state={
@@ -10,6 +15,18 @@ class Home extends Component{
       password: ""
     }
   }
+
+  /**
+  *  signIn is an async arrow function used to login to the app
+  *
+  *  return fetch-  makes a request to the url provided, it is followed by a post request to the api which includes the content-type
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user, they are then navigated to the Coffee screen
+  *  await AsyncStorage.setItem - is used to set both the token and user id
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   signIn = async () => {
 
     return fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
@@ -42,6 +59,15 @@ class Home extends Component{
         ToastAndroid.show(error, ToastAndroid.SHORT);
     })
   }
+
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <View> - is used and it contains the FlatList
+  *  <Text> - is used to display the page title
+  *  <TwxtInput> - is used to take the user input and sets the state of email and password when entered
+  *  <TouchableOpacity> - When pressed will call either the signIn function or navigate the user to the Register screen
+  */
   render(){
     const navigation = this.props.navigation;
 
@@ -78,6 +104,9 @@ class Home extends Component{
   }
 }
 
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,

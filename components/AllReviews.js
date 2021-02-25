@@ -1,28 +1,39 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, TouchableOpacity, TextInput, ToastAndroid, ScrollView, SafeAreaView, FlatList } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, ToastAndroid, SafeAreaView, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/** @description The class ViewAllReviews lets the user see every review that was made, this is displayed in a FlatList */
 class ViewAllReviews extends Component{
+
+/** This.state constructor initialises the variabes/arrays: locationData, loc_id, locationRev, rev_id */
   constructor(props) {
     super(props);
     this.state={
-      overall_rating: "",
-      price_rating: "",
-      quality_rating: "",
-      clenliness_rating: "",
-      review_body: "",
       locationData: [],
       loc_id: "",
-      ButtonState: false,
       locationRev: [],
       rev_id: "",
     }
   }
 
+/** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
   }
 
+  /**
+  *  getData is an async arrow function used to gather all location information
+  *
+  *  await AsyncStorage.getItem - retrieves the token and user id that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided, it is followed by a get request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is set to the variables locationData,locationRev and console.logs the responsejson
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   getData = async () => {
     console.log("fetching location data now");
     let token = await AsyncStorage.getItem('@session_token');
@@ -58,6 +69,18 @@ class ViewAllReviews extends Component{
       ToastAndroid.show(error, ToastAndroid.SHORT);
     });
   }
+
+  /**
+  *  LikeUserReview is an async arrow function used to like a user review
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided + the variable loc_id and the variabe rev_id, it is followed by a post request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   LikeUserReview = async () => {
     let token = await AsyncStorage.getItem('@session_token');
     console.log(this.state.rev_id);
@@ -91,6 +114,18 @@ class ViewAllReviews extends Component{
         ToastAndroid.show(error, ToastAndroid.SHORT);
     })
   }
+
+  /**
+  *  DislikeUserReview is an async arrow function used to unlike a user review
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch-  makes a request to the url provided + the variable loc_id and the variabe rev_id, it is followed by a delete request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - then the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   DislikeUserReview = async () => {
     let token = await AsyncStorage.getItem('@session_token');
     console.log(this.state.rev_id);
@@ -126,6 +161,17 @@ class ViewAllReviews extends Component{
         ToastAndroid.show(error, ToastAndroid.SHORT);
     })
   }
+
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <View> - is used and it contains two FlatLists (nested FlatList)
+  *  <FlatList> - displays the variable locationData and locationRev which is passed to data and is sorted from the most recent review to the oldest
+  *  <Text> - is used to display the FlatList data and the pagetitle
+  *  <TouchableOpacity> - there are three, one likes the review and calls the LikeUserReview function and sets the variables rev_id and loc_id, the same goes for unliking a review except it calls the DislikeUserReview function
+  *  the third one navigates the user back to the home screen Coffee
+  *
+  */
   render(){
     const navigation = this.props.navigation;
     return(
@@ -176,8 +222,9 @@ class ViewAllReviews extends Component{
   }
 }
 
-
-
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,

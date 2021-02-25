@@ -1,12 +1,17 @@
+
+/** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/** @description The class UserReviews gets every review that the user has created and outputs them in a FlatList, the user also has the option to view, add or delete any of their photos attached to a review they have made as well as update their review */
+
 class UserReviews extends Component{
+
+/** This.state constructor initialises the variabes/arrays: userReviews, favouriteCoffee, rev_id and loc_id */
   constructor(props) {
     super(props);
     this.state={
-      userInfo: [],
       userReviews: [],
       favouriteCoffee: [],
       rev_id: "",
@@ -14,10 +19,22 @@ class UserReviews extends Component{
     }
   }
 
+/** componentDidMount calls the function this.getData() in the first render cycle */
   componentDidMount(){
     this.getData();
   }
 
+/**
+*  getData is an async arrow function used to gather all the information on the User
+*
+*  await AsyncStorage.getItem - retrieves the token and user id that is stored witihin async storage
+*  return fetch-  makes a request to the url provided + the variable userID, it is followed by a get request to the api which includes the token variable
+*  .then((response) - if there is a response from the api and it is a 200 status code then it will return response.json()
+*  otherwise the api will throw a server error which is handled with if/else if statements
+*  .then((responseJson) - then the request retrieved from the server is set to the variable userReviews
+*  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+*
+*/
   getData = async () => {
     console.log("fetching user data now");
     let token = await AsyncStorage.getItem('@session_token');
@@ -56,6 +73,17 @@ class UserReviews extends Component{
     });
   }
 
+  /**
+  *  DeletePhoto is an async arrow function used to delete a photo on a review
+  *
+  *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
+  *  return fetch - makes a request to the url provided + the variable loc_id and rev_id, it is followed by a delete request to the api which includes the token variable
+  *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response
+  *  otherwise the api will throw a server error which is handled with if/else if statements
+  *  .then((responseJson) - the request retrieved from the server is outputted to the console and a ToastAndroid is shown to the user and they are navigated to a different screen
+  *  .catch((error) - catches any errors that are not related to the server and outputs them via a ToastAndroid
+  *
+  */
   DeletePhoto = async () => {
     let token = await AsyncStorage.getItem('@session_token');
     return fetch("http://10.0.2.2:3333/api/1.0.0/location/"+(this.state.loc_id)+"/review/"+(this.state.rev_id)+"/photo", {
@@ -92,6 +120,14 @@ class UserReviews extends Component{
     })
   }
 
+  /**
+  *  renderItem is an arrow function used to render a FlatList
+  *
+  *  the variables item and index are passed
+  *  within the <View> a <Text> is used to display the information from the FlatList data
+  *  A <TouchableOpacity> is also rendered under each <Text> that navigates them to another screen to update their review
+  * DELETE ME?
+  */
   renderItem = ({ item, index }) => {
     const navigation = this.props.navigation;
     return (
@@ -106,6 +142,17 @@ class UserReviews extends Component{
       </View>
     )
   }
+
+  /**
+  *  render displays everything out to the user side
+  *
+  *  <SafeAreaView> - is used and it contains the FlatList
+  *  <FlatList> - displays the variable userReviews which is passed to data and is sorted from the latest review to the oldest using the review_id
+  *  <Text> - is used to display the FlatList data
+  *  <TouchableOpacity> - is under each review, it also navigates to the screen UpdateReviews and takes variabes across using this.props
+  *  There are four <TouchableOpacity> each unique, one lets the user view a photo attached to a review, one adds a photo to a review, one deletes a photo on a review and the other takes them to update their review
+  *
+  */
 render(){
   const navigation = this.props.navigation;
   return(
@@ -156,6 +203,10 @@ render(){
 }
 
 }
+
+/**
+*  styles is the name of the StyleSheet used to give the components their properties
+*/
 const styles = StyleSheet.create({
   container:{
     flex: 1,
