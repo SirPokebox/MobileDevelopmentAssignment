@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, TextInput} from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, ScrollView, SafeAreaView, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Rating, AirbnbRating } from 'react-native-ratings';
 
@@ -35,11 +35,33 @@ class UpdateReviews extends Component{
     });
   }
 
+  /** ReviewValidation is an arrow function that checks the review body for the words tea, cake and pastry */
+    ReviewValidation=()=> {
+      const { review_body } = this.state
+      if(review_body.includes("tea")){
+        ToastAndroid.show('We do not like tea', ToastAndroid.SHORT);
+        return false
+      }else if(review_body.includes("cakes")){
+        ToastAndroid.show('We do not like cake', ToastAndroid.SHORT);
+        return false
+      }else if(review_body.includes("cake")){
+        ToastAndroid.show('We do not like cake', ToastAndroid.SHORT);
+        return false
+      }else if(review_body.includes("pastry")){
+        ToastAndroid.show('We do not like pastry', ToastAndroid.SHORT);
+        return false
+      }else if(review_body.includes("pastries")){
+        ToastAndroid.show('We do not like pastry', ToastAndroid.SHORT);
+        return false
+      }
+      this.UpdateUserReview()
+    }
+
   /**
   *  UpdateUserReview is an async arrow function used to update a user review
   *
   *  await AsyncStorage.getItem - retrieves the token that is stored witihin async storage
-  * let updateReview_toServer - sets all the variables relevant to updating a review 
+  * let updateReview_toServer - sets all the variables relevant to updating a review
   *  return fetch -  makes a request to the url provided + the variable loc_id and the variabe rev_id, it is followed by a patch request to the api which includes the token variable and content-type
   *  body - is set to updateReview_toServer which is JSON.stringified
   *  .then((response) - if there is a response from the api and it is a 200 status code then it will return response
@@ -174,6 +196,7 @@ render(){
 
   return(
     <SafeAreaView  style ={styles.container}>
+    <ScrollView>
     <Text style = {styles.text}> Current Review: </Text>
     <Text style = {styles.locationText}>Review ID: {this.state.rev_id}{"\n"}{"\n"}{(locName)}, found in {(locTown)}{"\n"}{"\n"}Overall Rating: {(overallRating)}{"\n"}{"\n"}Review:{"\n"}{"\n"}{(revBody)}</Text>
     <Text style ={styles.text}>Overall Rating:</Text>
@@ -217,7 +240,7 @@ render(){
     <TouchableOpacity
     style = {styles.button}
     onPress={() => {
-    this.UpdateUserReview()
+    this.ReviewValidation()
     }}
     >
     <Text style = {styles.text}>Update Review</Text>
@@ -230,6 +253,7 @@ render(){
     >
     <Text style = {styles.text}>Delete Review</Text>
     </TouchableOpacity>
+    </ScrollView>
     </SafeAreaView>
   )
 }

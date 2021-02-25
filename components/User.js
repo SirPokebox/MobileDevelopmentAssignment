@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ToastAndroid, SafeAreaView, TextInput, ActivityIndicator} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ToastAndroid, SafeAreaView, TextInput, ActivityIndicator, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class UserProfile displays the users account details and lets them update them if needed, they can also navigate to update their reviews, update their favourite shop or return to the home screen */
@@ -153,7 +153,7 @@ class UserProfile extends Component{
   */
 render(){
   const navigation = this.props.navigation;
-  return( 
+  return(
       <View style ={styles.loadingScreen}>
       {
         this.state.isLoading ?
@@ -162,7 +162,6 @@ render(){
       <SafeAreaView style={styles.container}>
       <Text style = {styles.pagetitle}>My Profile</Text>
       <Text style = {styles.locationText}>First Name: {this.state.firstName}{"\n"}Last Name: {this.state.lastName}{"\n"}Email: {this.state.userEmail}</Text>
-
         <Text style = {styles.text}>Insert New Details:</Text>
         <TextInput
         placeholder="first name"

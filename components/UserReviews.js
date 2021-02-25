@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, PermissionsAndroid, ToastAndroid, FlatList, SafeAreaView, ActivityIndicator, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class UserReviews gets every review that the user has created and outputs them in a FlatList, the user also has the option to view, add or delete any of their photos attached to a review they have made as well as update their review */

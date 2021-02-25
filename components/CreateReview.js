@@ -32,6 +32,28 @@ class MakeReview extends Component{
     }, 3000);
   }
 
+/** ReviewValidation is an arrow function that checks the review body for the words tea, cake and pastry */
+  ReviewValidation=()=> {
+    const { review_body } = this.state
+    if(review_body.includes("tea")){
+      ToastAndroid.show('We do not like tea', ToastAndroid.SHORT);
+      return false
+    }else if(review_body.includes("cakes")){
+      ToastAndroid.show('We do not like cake', ToastAndroid.SHORT);
+      return false
+    }else if(review_body.includes("cake")){
+      ToastAndroid.show('We do not like cake', ToastAndroid.SHORT);
+      return false
+    }else if(review_body.includes("pastry")){
+      ToastAndroid.show('We do not like pastry', ToastAndroid.SHORT);
+      return false
+    }else if(review_body.includes("pastries")){
+      ToastAndroid.show('We do not like pastry', ToastAndroid.SHORT);
+      return false
+    }  
+    this.submitReview()
+  }
+  
   /**
   *  getData is an async arrow function used to gather all location information
   *
@@ -245,7 +267,7 @@ submitReview = async () => {
           <TouchableOpacity
           style = {styles.button}
           onPress={() => {
-          this.submitReview()
+          this.ReviewValidation()
           }}
           >
           <Text style = {styles.text}>Submit Review</Text>
