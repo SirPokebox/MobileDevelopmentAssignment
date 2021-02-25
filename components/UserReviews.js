@@ -171,7 +171,7 @@ render(){
             </TouchableOpacity>
             <TouchableOpacity
               style = {styles.button}
-              onPress={() => this.props.navigation.navigate('ReviewPhoto', {revid: item.review.review_id, locid: item.location.location_id, revBody: item.review.review_body, locName: item.location.location_name, locTown: item.location.location_name, overallRating: item.review.overall_rating})}
+              onPress={() => this.props.navigation.navigate('ReviewPhoto', {revid: item.review.review_id, locid: item.location.location_id, revBody: item.review.review_body, locName: item.location.location_name, locTown: item.location.location_town, overallRating: item.review.overall_rating})}
               >
               <Text style = {styles.text}>View Photo</Text>
             </TouchableOpacity>

@@ -5,8 +5,9 @@ import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAnd
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Rating, AirbnbRating } from 'react-native-ratings';
 
-/** imports the class UserReviews */
+/** imports the class UserReviews and ViewAllReviews*/
 import UserReviews from './UserReviews.js'
+import ViewAllReviews from './AllReviews.js'
 
 /** @description The class ReviewPhoto lets the user view the review made and photo that was uploaded to that review */
 class ReviewPhoto extends Component{

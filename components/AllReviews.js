@@ -168,8 +168,9 @@ class ViewAllReviews extends Component{
   *  <View> - is used and it contains two FlatLists (nested FlatList)
   *  <FlatList> - displays the variable locationData and locationRev which is passed to data and is sorted from the most recent review to the oldest
   *  <Text> - is used to display the FlatList data and the pagetitle
-  *  <TouchableOpacity> - there are three, one likes the review and calls the LikeUserReview function and sets the variables rev_id and loc_id, the same goes for unliking a review except it calls the DislikeUserReview function
+  *  <TouchableOpacity> - there are four, one likes the review and calls the LikeUserReview function and sets the variables rev_id and loc_id, the same goes for unliking a review except it calls the DislikeUserReview function
   *  the third one navigates the user back to the home screen Coffee
+  *  the fourth one navigates you to the ReviewPhoto screen and shows the review along with the photo for that review
   *
   */
   render(){
@@ -187,6 +188,12 @@ class ViewAllReviews extends Component{
             renderItem={({item}) =>(
               <View>
                 <Text style = {styles.locationText}>Overall Rating: {item.review_overallrating}{"\n"}{"\n"}Review:{"\n"}{"\n"}{item.review_body}{"\n"}{"\n"}Likes: {item.likes}</Text>
+                <TouchableOpacity
+                  style = {styles.button}
+                  onPress={() =>this.props.navigation.navigate('ReviewPhoto', {revid: item.review_id, locid: item.review_location_id, revBody: item.review_body, locName: item.location_name, locTown: item.location_town, overallRating: item.review_overallrating})}
+                  >
+                    <Text style = {styles.text}>View Photo</Text>
+                </TouchableOpacity>
                 <View style = {styles.sideBysideButtons}>
                 <TouchableOpacity
                   style = {styles.buttonLike}
