@@ -1,5 +1,3 @@
-https://github.com/SirPokebox/MobileDevelopmentAssignment
-
 ```Rhys Clinch, 18012805```
 # Implement the CoffiDa API as a React Native application
 ## Prerequisites
