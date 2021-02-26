@@ -98,6 +98,12 @@ class Coffee extends Component{
         </TouchableOpacity>
         <TouchableOpacity
           style = {styles.button}
+          onPress={() => navigation.navigate('SelectCoffee')}
+          >
+            <Text style = {styles.text}>View a Shop</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style = {styles.button}
           onPress={() => navigation.navigate('Map View')}
           >
             <Text style = {styles.text}>See Local Coffee</Text>

@@ -19,6 +19,8 @@ import ViewAllReviews from './components/AllReviews.js'
 import FavouritePlace from './components/SelectFavourite.js'
 import Photo from './components/Camera.js'
 import ReviewPhoto from './components/ViewPhoto.js'
+import SelectCoffee from './components/SelectLocation.js'
+import CoffeeShop from './components/LocationReview.js'
 
 /** Creates the stack navigator */
 const Stack = createStackNavigator()
@@ -42,6 +44,8 @@ class App extends Component {
           <Stack.Screen options={{ headerShown: false }} name='FavouritePlace' component={FavouritePlace} />
           <Stack.Screen name='Photo' component={Photo} />
           <Stack.Screen name='ReviewPhoto' component={ReviewPhoto} />
+          <Stack.Screen name='SelectCoffee' component={SelectCoffee} />
+          <Stack.Screen name='CoffeeShop' component={CoffeeShop} />
 
         </Stack.Navigator>
       </NavigationContainer>
