@@ -175,6 +175,7 @@ submitReview = async () => {
         onPress={() => {
           this.setState({loc_id : item.location_id})
           this.DisableButtons()
+          ToastAndroid.show(item.location_name+" Selected!", ToastAndroid.SHORT);
         }}
         disabled = {this.state.ButtonState}
         >
