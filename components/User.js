@@ -160,6 +160,7 @@ render(){
       <ActivityIndicator size="large" color="white"/>
       :
       <SafeAreaView style={styles.container}>
+      <ScrollView>
       <Text style = {styles.pagetitle}>My Profile</Text>
       <Text style = {styles.locationText}>First Name: {this.state.firstName}{"\n"}Last Name: {this.state.lastName}{"\n"}Email: {this.state.userEmail}</Text>
         <Text style = {styles.text}>Insert New Details:</Text>
@@ -212,6 +213,7 @@ render(){
           >
         <Text style = {styles.text}>Return to home screen</Text>
         </TouchableOpacity>
+        </ScrollView>
       </SafeAreaView>
       }
       </View>

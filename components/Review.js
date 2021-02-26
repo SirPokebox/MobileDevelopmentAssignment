@@ -1,7 +1,7 @@
 
 /** The following imports are required for this screen to function properly */
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid} from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /** @description The class Coffee is the home screen where the user can decide what they like to do on the application */
@@ -84,6 +84,7 @@ class Coffee extends Component{
     return(
       <View style ={styles.container}>
         <Text style = {styles.pagetitle}>Home Screen</Text>
+        <ScrollView>
         <TouchableOpacity
           style = {styles.button}
           onPress={() => navigation.navigate('UserProfile')}
@@ -126,6 +127,7 @@ class Coffee extends Component{
           >
             <Text style = {styles.text}>Log Out</Text>
         </TouchableOpacity>
+        </ScrollView>
       </View>
     );
   }

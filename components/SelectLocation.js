@@ -139,12 +139,14 @@ class SelectCoffee extends Component{
           extraData={this.state.locationData}
           />
           <View style = {styles.sideBysideButtons}>
+          <ScrollView>
           <TouchableOpacity
             style = {styles.button}
             onPress={() => this.props.navigation.navigate('CoffeeShop', {locid: this.state.loc_id, locname: this.state.loc_name})}
             >
               <Text style = {styles.text}>View Selected</Text>
           </TouchableOpacity>
+          </ScrollView>
           </View>
           </View>
           }

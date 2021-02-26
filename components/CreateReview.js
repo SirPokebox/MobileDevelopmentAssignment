@@ -226,6 +226,7 @@ submitReview = async () => {
           keyExtractor={(item, index) => index.toString()}
           extraData={this.state.locationData}
           />
+          <ScrollView>
           <Text style ={styles.text}>Overall Rating:</Text>
           <AirbnbRating
             defaultRating={0}
@@ -272,6 +273,7 @@ submitReview = async () => {
           >
           <Text style = {styles.text}>Submit Review</Text>
           </TouchableOpacity>
+          </ScrollView>
           </View>
           }
           </View>
