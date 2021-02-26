@@ -8,6 +8,7 @@ I have made a Coffee Review application that interacts with the CoffiDa API.
 ### The application includes the following features/endpoints implemented:
 - Log-in and Log out, as well as Create an account
 - Create, Update and Delete a review
+- Select a coffee shop and view reviews specifically for that shop
 - Like and Unlike a review
 - Favourite and Unfavourite a Coffee Shop
 - Profanity Filter to filter the words **cake**, **tea** and **pastry** in reviews
